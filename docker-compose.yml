@@ -1,0 +1,31 @@
+version: '3'
+
+services: 
+  backend:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/backend/production/Dockerfile
+    volumes:
+      - static_volume:/backend/static
+    ports:
+      - 8000:8000
+    depends_on: 
+      - db
+    env_file:
+      - ./backend/.env
+    networks:
+      - djangonetwork
+  db:
+    image: postgres:13.1-alpine
+    env_file:
+      - ./backend/.env
+    networks:
+      - djangonetwork
+
+volumes:
+  static_volume: {}
+
+networks:
+  djangonetwork:
+    driver: bridge
