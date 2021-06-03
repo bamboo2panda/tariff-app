@@ -90,3 +90,16 @@ class PriveteUserApiTests(TestCase):
         self.assertEqual(self.user.name, payload['name'])
         self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def user_pay_day_is_valid(self):
+        """Test that pay day has valid datetime tipe"""
+        u1 = self.user
+        u2 = self.user.pay_day(dt.datetime.now() + dt.timedelta(months=1))
+        u3 = self.user.pay_day('123123')
+
+        payload = {'pay_day': dt.datetime.now() + dt.timedelta(months=1)}
+        res = self.client.patch(ME_URL, payload)
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.pay_day, payload['pay_day'])
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
