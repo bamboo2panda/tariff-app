@@ -1,11 +1,12 @@
+from django.utils import timezone
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
+from datetime import timedelta
+
 from rest_framework.test import APIClient
 from rest_framework import status
-
-import datetime as dt
 
 CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
@@ -28,6 +29,7 @@ class PublicUserApiTests(TestCase):
             'username': 'test user',
             'password': '12sdaw4123',
             'name': 'test Name',
+            'pay_day': timezone.now()
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -66,7 +68,8 @@ class PriveteUserApiTests(TestCase):
         self.user = create_user(
             username='test_username',
             password='testpassword',
-            name='Test name'
+            name='Test name',
+            pay_day=timezone.now()
         )
         self.client = APIClient()
         self.client.force_authenticate(self.user)
@@ -74,12 +77,12 @@ class PriveteUserApiTests(TestCase):
     def test_retrieve_profile_success(self):
         """Test retrieving profile for logged user"""
         res = self.client.get(ME_URL)
+        
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, {
-            'username': self.user.username,
-            'name': self.user.name,
-            'plan': None
-        })
+        self.assertEqual(res.data['username'], self.user.username)
+        self.assertEqual(res.data['name'], self.user.name)
+        self.assertEqual(res.data['plan'], self.user.plan)
+
 
     def test_update_user_profile(self):
         """Test updating user profile for authenticated user"""
@@ -91,15 +94,13 @@ class PriveteUserApiTests(TestCase):
         self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
-    def user_pay_day_is_valid(self):
+    def test_user_pay_day_is_valid(self):
         """Test that pay day has valid datetime tipe"""
-        u1 = self.user
-        u2 = self.user.pay_day(dt.datetime.now() + dt.timedelta(months=1))
-        u3 = self.user.pay_day('123123')
-
-        payload = {'pay_day': dt.datetime.now() + dt.timedelta(months=1)}
+        payload = {
+                'pay_day': timezone.now()
+            }
         res = self.client.patch(ME_URL, payload)
 
         self.user.refresh_from_db()
-        self.assertEqual(self.user.pay_day, payload['pay_day'])
+        self.assertEqual(self.user.pay_day - payload['pay_day'], timedelta(0))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
