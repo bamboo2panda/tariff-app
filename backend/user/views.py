@@ -1,8 +1,10 @@
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from rest_framework import generics, authentication, permissions
+from rest_framework.views import APIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
+from rest_framework.response import Response
 
 from user.serializers import UserSerializer, AuthTokenSerializer
 
@@ -43,3 +45,17 @@ class UpdatePaydayView(generics.UpdateAPIView):
     def get_object(self):
         """Retreive and return authenticated user"""
         return self.request.user
+
+
+class CheckPlanPaimentView(APIView):
+    """Retutns true if plan is already paid"""
+    serializer_class = UserSerializer
+    authentication_classes = (authentication.TokenAuthentication, )
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        """Retreive and return paiment status"""
+        payday = self.request.user.pay_day
+        if payday < timezone.now():
+            return Response({'paid': False})
+        return Response({'paid': True})

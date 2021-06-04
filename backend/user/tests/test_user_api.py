@@ -13,6 +13,7 @@ CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
 UPDATE_PAYDAY_URL = reverse('user:update_payday')
+IS_PLAN_PAID_URL = reverse('user:is_plan_paid')
 
 
 def create_user(**params):
@@ -122,3 +123,14 @@ class PrivateUserApiTests(TestCase):
 
         self.assertTrue(date_in_period_now_plus_minus_minute(dt_delta))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_plan_is_paid_valid(self):
+        """Test that plan is already paid"""
+        self.client.patch(UPDATE_PAYDAY_URL)
+        res = self.client.get(IS_PLAN_PAID_URL)
+        self.assertTrue(res.data['paid'])
+
+    def test_plan_is_unpaid_valid(self):
+        """Test that time to pay the paln comes"""
+        res = self.client.get(IS_PLAN_PAID_URL)
+        self.assertFalse(res.data['paid'])

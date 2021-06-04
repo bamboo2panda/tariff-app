@@ -10,5 +10,8 @@ urlpatterns = [
     path('me/', views.ManageUserView.as_view(), name='me'),
     path('update_payday/',
          views.UpdatePaydayView.as_view(),
-         name='update_payday')
+         name='update_payday'),
+    path('is_plan_paid/',
+         views.CheckPlanPaimentView.as_view(),
+         name='is_plan_paid')
 ]
