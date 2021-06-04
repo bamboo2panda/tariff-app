@@ -3,7 +3,8 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-from datetime import timedelta
+from dateutil.relativedelta import relativedelta
+from datetime import timedelta, datetime
 
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -11,10 +12,18 @@ from rest_framework import status
 CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
+UPDATE_PAYDAY_URL = reverse('user:update_payday')
 
 
 def create_user(**params):
     return get_user_model().objects.create_user(**params)
+
+
+def date_in_period_now_plus_minus_minute(date: datetime) -> bool:
+    """Check if given date in period of -1 minute of now"""
+    if timezone.now() - relativedelta(minutes=1) < date < timezone.now():
+        return True
+    return False
 
 
 class PublicUserApiTests(TestCase):
@@ -61,7 +70,7 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
 
-class PriveteUserApiTests(TestCase):
+class PrivateUserApiTests(TestCase):
     """Test the user API (private)"""
 
     def setUp(self):
@@ -77,12 +86,11 @@ class PriveteUserApiTests(TestCase):
     def test_retrieve_profile_success(self):
         """Test retrieving profile for logged user"""
         res = self.client.get(ME_URL)
-        
+
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data['username'], self.user.username)
         self.assertEqual(res.data['name'], self.user.name)
         self.assertEqual(res.data['plan'], self.user.plan)
-
 
     def test_update_user_profile(self):
         """Test updating user profile for authenticated user"""
@@ -103,4 +111,14 @@ class PriveteUserApiTests(TestCase):
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.pay_day - payload['pay_day'], timedelta(0))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_user_update_pay_day_successful(self):
+        """Test that pay_day updates seccessfull"""
+        res = self.client.patch(UPDATE_PAYDAY_URL)
+        res_dt = datetime.strptime(res.data['pay_day'],
+                                   '%Y-%m-%dT%H:%M:%S.%f%z')
+        dt_delta = res_dt - relativedelta(months=1)
+
+        self.assertTrue(date_in_period_now_plus_minus_minute(dt_delta))
         self.assertEqual(res.status_code, status.HTTP_200_OK)

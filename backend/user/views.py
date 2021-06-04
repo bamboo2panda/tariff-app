@@ -1,3 +1,5 @@
+from dateutil.relativedelta import relativedelta
+from django.utils import timezone
 from rest_framework import generics, authentication, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
@@ -19,8 +21,24 @@ class CreateTokenView(ObtainAuthToken):
 class ManageUserView(generics.RetrieveUpdateAPIView):
     """Manage the authenticated user"""
     serializer_class = UserSerializer
-    authentication_classses = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self):
+        """Retreive and return authenticated user"""
+        return self.request.user
+
+
+class UpdatePaydayView(generics.UpdateAPIView):
+    """Update paydate of authenticated user"""
+    serializer_class = UserSerializer
+    authentication_classes = (authentication.TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def perform_update(self, serializer):
+        """Update payday + 1 month"""
+        new_date = timezone.now() + relativedelta(months=1)
+        serializer.save(pay_day=new_date, partial=True)
 
     def get_object(self):
         """Retreive and return authenticated user"""
