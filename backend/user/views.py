@@ -6,7 +6,10 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 from rest_framework.response import Response
 
-from user.serializers import UserSerializer, AuthTokenSerializer
+from user.serializers import UserSerializer, \
+                             AuthTokenSerializer, \
+                             PlanSerializer
+from core.models import Plan
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -75,3 +78,13 @@ class CheckPlanPaimentView(APIView):
         if payday < timezone.now():
             return Response({'paid': False})
         return Response({'paid': True})
+
+
+class GetPlansList(generics.ListAPIView):
+    """Returns list of available plans"""
+    model = Plan
+    serializer_class = PlanSerializer
+
+    def get_queryset(self):
+        queryset = self.model.objects.all()
+        return queryset

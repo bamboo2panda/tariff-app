@@ -1,6 +1,17 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
 
+from core.models import Plan
+
+
+class PlanSerializer(serializers.ModelSerializer):
+    """Serializer for plan objects"""
+
+    class Meta:
+        model = Plan
+        fields = ('id', 'name')
+        read_only_fields = ('id',)
+
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for the user object"""

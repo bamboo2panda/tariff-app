@@ -16,5 +16,8 @@ urlpatterns = [
           name='drop_payday'),
      path('is_plan_paid/',
           views.CheckPlanPaimentView.as_view(),
-          name='is_plan_paid')
+          name='is_plan_paid'),
+     path('get_plans_list',
+          views.GetPlansList.as_view(),
+          name='get_plans_list')
 ]
