@@ -47,6 +47,22 @@ class UpdatePaydayView(generics.UpdateAPIView):
         return self.request.user
 
 
+class DropPaydayView(generics.UpdateAPIView):
+    """Drop paydate of authenticated user"""
+    serializer_class = UserSerializer
+    authentication_classes = (authentication.TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def perform_drop(self, serializer):
+        """Drop payday to now"""
+        new_date = timezone.now()
+        serializer.save(pay_day=new_date, partial=True)
+
+    def get_object(self):
+        """Retreive and return authenticated user"""
+        return self.request.user
+
+
 class CheckPlanPaimentView(APIView):
     """Retutns true if plan is already paid"""
     serializer_class = UserSerializer

@@ -15,6 +15,7 @@ CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
 UPDATE_PAYDAY_URL = reverse('user:update_payday')
+DROP_PAYDAY_URL = reverse('user:drop_payday')
 IS_PLAN_PAID_URL = reverse('user:is_plan_paid')
 
 
@@ -140,3 +141,13 @@ class PrivateUserApiTests(TestCase):
     def test_plan_str(self):
         plan = Plan.objects.create(name='Light', price='10')
         self.assertEqual(str(plan), plan.name)
+
+    def test_user_drop_pay_day_successful(self):
+        """Test that pay_day drop seccessfull"""
+        res = self.client.patch(DROP_PAYDAY_URL)
+        res_dt = datetime.strptime(res.data['pay_day'],
+                                   '%Y-%m-%dT%H:%M:%S.%f%z')
+        dt_delta = res_dt
+
+        self.assertTrue(date_in_period_now_plus_minus_minute(dt_delta))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
