@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import Auth from '../auth';
 import Header from '../header';
 import Features from '../features';
-import PayCheckService from '../../services/payCheckService';
+import PayService from '../../services/payService';
 import UserDataService from '../../services/userDataService';
 
 import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -20,7 +20,7 @@ const App = () => {
     updateScreen();
   }
 
-  const payCheckService = new PayCheckService();
+  const payCheckService = new PayService();
   const userDataService = new UserDataService();
 
   payCheckService.checkPayment()
@@ -49,7 +49,7 @@ const App = () => {
               <Auth setToken={setToken} >
                 <Header setToken={setToken}/>
                 <h1>My featutes:</h1>
-                <Features plan={userData['plan']} paid={planPaid} userData={userData}/>
+                <Features paid={planPaid} userData={userData} updateScreen={updateScreen}/>
               </Auth> 
             </Route>
         </Switch>

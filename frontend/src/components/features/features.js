@@ -1,20 +1,19 @@
 import React from 'react';
+import Payment from '../payment'
 
-const Features = ({plan, paid, userData}) => {
+const Features = ({paid, userData, updateScreen}) => {
+    let {plan, pay_day} = userData;
     console.log(`Plan ${plan}`);
     console.log(`Paid: ${paid}`);
     console.log(userData);
-    const planPaidText = () => {
-        if (paid){
-            return `You paid till ${userData['pay_day']}`;
-        }
-        return 'Please pay the plan';
-    };
+    
+
     return(
         <>
-            <h3>{plan} ({paid})</h3>
-            <h4>{planPaidText}</h4>
-
+            <h3>{plan}</h3>
+            <Payment pay_day={pay_day} paid={paid} updateScreen={updateScreen}>
+                Some cool features of plan {plan}
+            </Payment>
         </>
     );
 
