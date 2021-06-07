@@ -37,11 +37,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     USERNAME_FIELD = 'username'
 
+    def __str__(self) -> str:
+        return self.username
+
 
 class Plan(models.Model):
     """Tariff plan model for user"""
     name = models.CharField(max_length=255)
     price = models.IntegerField()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name

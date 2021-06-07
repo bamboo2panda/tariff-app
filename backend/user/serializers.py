@@ -4,6 +4,11 @@ from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for the user object"""
+    plan = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='name'
+    )
+
     class Meta:
         model = get_user_model()
         fields = ('username', 'password', 'name', 'plan', 'pay_day')

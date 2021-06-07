@@ -9,6 +9,8 @@ from datetime import timedelta, datetime
 from rest_framework.test import APIClient
 from rest_framework import status
 
+from core.models import Plan
+
 CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
@@ -134,3 +136,7 @@ class PrivateUserApiTests(TestCase):
         """Test that time to pay the paln comes"""
         res = self.client.get(IS_PLAN_PAID_URL)
         self.assertFalse(res.data['paid'])
+
+    def test_plan_str(self):
+        plan = Plan.objects.create(name='Light', price='10')
+        self.assertEqual(str(plan), plan.name)

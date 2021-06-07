@@ -8,10 +8,10 @@ from core import models
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
-    list_display = ['username', 'name', 'plan']
+    list_display = ['username', 'name', 'plan', 'pay_day']
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal Info'), {'fields': ('name', 'plan')}),
+        (_('Personal Info'), {'fields': ('name', 'plan', 'pay_day')}),
         (
             _('Permissions'),
             {'fields': ('is_active', 'is_staff', 'is_superuser')}
@@ -26,4 +26,10 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
+class PlanAdmin(admin.ModelAdmin):
+    ordering = ['id']
+    list_display = ['name', 'price']
+
+
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Plan, PlanAdmin)
