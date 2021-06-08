@@ -146,3 +146,9 @@ CORS_ALLOW_METHODS = (
         'DELETE',
         'OPTIONS'
     )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}

@@ -13,12 +13,20 @@ const Payment = (props) => {
         });
     }
 
+    const handleDropPayday = (event) =>{
+        event.preventDefault();
+        payService.dropPayDay()
+        .then(() => {
+            props.updateScreen()
+        });
+    }
+
     const {pay_day, paid} = props;
     console.log(paid);
     if (paid){
         return (
             <>
-                <h3>Paid till {pay_day}</h3>
+                <h3>Paid till {pay_day} <button onClick={handleDropPayday}>Drop payday</button></h3>
                 {props.children}
             </>
         );

@@ -1,12 +1,13 @@
-import {Component} from 'react';
 require('dotenv').config()
 const host = process.env.REACT_APP_WEB_HOST;
 const protocol = 'http://';
 
-export default class UserDataService extends Component {
-    
-    _apiBase = `${protocol}${host}:8000/api/user/me/`;
-
+export default class UserDataService {
+    constructor(){
+        this.token = localStorage.getItem("token");
+        this._apiBase = `${protocol}${host}:8000/api/user/me/`;
+        console.log(`UserDataService constructed. Token: ${this.token}`)
+    }
     getUserData = async (data) => {
         const res = await fetch(
             `${this._apiBase}`,{
@@ -14,13 +15,14 @@ export default class UserDataService extends Component {
                 crossDomain: true,
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json'
-                  },
+                    'Content-Type': 'application/json',
+                    Authorization: `token ${this.token}`,
+                    },
                 body: JSON.stringify(data)
             }
         );
-        if(!res.ok){
-            throw new Error(`Bad answer. Doesn't mean that not paid.`);
+        if (!res.ok){
+            throw new Error(`Could not fetch ${this._apiBase}, status ${res.status}`);
         }
         return await res.json();
     }

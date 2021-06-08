@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import Auth from '../auth';
 import Header from '../header';
 import Features from '../features';
+import Register from '../register';
 import PayService from '../../services/payService';
 import UserDataService from '../../services/userDataService';
 
@@ -51,6 +52,9 @@ const App = () => {
                 <h1>My featutes:</h1>
                 <Features paid={planPaid} userData={userData} updateScreen={updateScreen}/>
               </Auth> 
+            </Route>
+            <Route path="/register">
+                <Register />
             </Route>
         </Switch>
     </Router>

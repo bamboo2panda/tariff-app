@@ -56,7 +56,7 @@ class DropPaydayView(generics.UpdateAPIView):
     authentication_classes = (authentication.TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def perform_drop(self, serializer):
+    def perform_update(self, serializer):
         """Drop payday to now"""
         new_date = timezone.now()
         serializer.save(pay_day=new_date, partial=True)

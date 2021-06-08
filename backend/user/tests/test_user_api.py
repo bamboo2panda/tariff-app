@@ -38,16 +38,17 @@ class PublicUserApiTests(TestCase):
 
     def test_create_valid_user_success(self):
         """Test creating user with valid payload is successful"""
+        plan = Plan.objects.create(name='Light', price='10')
         payload = {
             'username': 'test user',
             'password': '12sdaw4123',
             'name': 'test Name',
-            'pay_day': timezone.now()
+            'pay_day': timezone.now(),
+            'plan': plan.name
         }
         res = self.client.post(CREATE_USER_URL, payload)
-
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        user = get_user_model().objects.get(**res.data)
+        user = get_user_model().objects.get(username=payload['username'])
         self.assertTrue(user.check_password((payload['password'])))
         self.assertNotIn(payload['password'], res.data)
 

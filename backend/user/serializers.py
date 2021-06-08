@@ -16,8 +16,8 @@ class PlanSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for the user object"""
     plan = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field='name'
+        slug_field='name',
+        queryset=Plan.objects.all()
     )
 
     class Meta:
