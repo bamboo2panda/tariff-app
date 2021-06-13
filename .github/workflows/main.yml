@@ -31,7 +31,6 @@ jobs:
       
     - name: Build Frontend
       working-directory: frontend/
-      run: npm run build
       
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
