@@ -20,6 +20,10 @@ on:
 jobs:
   my_ci_part:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+
 
     steps:
     - name: Git clone our repo
@@ -28,6 +32,13 @@ jobs:
     - name: Build Frontend
       working-directory: frontend/
       run: npm run build
+      
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build
        
     - name: Create ZIP deployment package
       run : zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ -x *.git*
