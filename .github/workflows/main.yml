@@ -6,7 +6,7 @@
 #---------------------------------------------------------------------
 name: CI-CD-Pipeline-to-AWS-ElasticBeastalk
 env:
-  EB_PACKAGE_S3_BUCKET_NAME : "tariff-application-packages"
+  EB_PACKAGE_S3_BUCKET_NAME : "tariff-app-bucket"
   EB_APPLICATION_NAME       : "TariffApp"
   EB_ENVIRONMENT_NAME       : "TariffApp-env"
   DEPLOY_PACKAGE_NAME       : "tariff_app_${{ github.sha }}.zip"
