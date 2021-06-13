@@ -28,10 +28,7 @@ jobs:
     steps:
     - name: Git clone our repo
       uses: actions/checkout@v1
-      
-    - name: Build Frontend
-      working-directory: frontend/
-      
+ 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
