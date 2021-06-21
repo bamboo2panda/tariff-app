@@ -18,6 +18,6 @@
 
 ## Демо-версия
 
-[do.2dpo.ru:81](do.2dpo.ru:81)  
-Админка [do.2dpo.ru:8001/admin/](do.2dpo.ru:8001/admin/) (admin|admin)  
-API [do.2dpo.ru:8001/api/user/](do.2dpo.ru:8001/api/user/)  
+[do.2dpo.ru:81](http://do.2dpo.ru:81)  
+Админка [do.2dpo.ru:8001/admin/](http://do.2dpo.ru:8001/admin/) (admin|admin)  
+API [do.2dpo.ru:8001/api/user/](http://do.2dpo.ru:8001/api/user/)  
