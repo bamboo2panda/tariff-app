@@ -3,11 +3,16 @@ import SignOut from '../../pages/signOut';
 
 const Header = ({setToken}) => {
     return (
-        <div>
-            <h1>Header</h1>
-            <SignOut setToken={setToken}/>
-        </div>
-                
+        <div className="container">
+            <div className="row">
+                <div className="col-sm">
+                    <h1>Tariff app</h1>
+                </div>
+                <div className="col-sm text-right">
+                    <span className="float-right"><SignOut setToken={setToken}/></span>
+                </div>
+            </div>
+        </div>  
     );
 }
 

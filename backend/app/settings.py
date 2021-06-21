@@ -152,7 +152,7 @@ CORS_ALLOW_METHODS = (
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+        'rest_framework.authentication.TokenAuthentication',
     ],
 }
 CSRF_COOKIE_DOMAIN = '0.0.0.0'

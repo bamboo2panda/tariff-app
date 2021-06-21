@@ -13,6 +13,3 @@ RUN pip install -r ./backend/requirements.txt
 RUN apk del .tmp-build-deps
 WORKDIR /backend
 COPY ./backend /backend
-
-RUN adduser -D user
-USER user

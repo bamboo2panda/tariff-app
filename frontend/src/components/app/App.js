@@ -49,7 +49,6 @@ const App = () => {
             <Route exact path="/">
               <Auth setToken={setToken} >
                 <Header setToken={setToken}/>
-                <h1>My featutes:</h1>
                 <Features paid={planPaid} userData={userData} updateScreen={updateScreen}/>
               </Auth> 
             </Route>

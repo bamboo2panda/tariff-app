@@ -1,5 +1,9 @@
 import React from 'react';
-import PayService from '../../services/payService'
+import PayService from '../../services/payService';
+import {Button, Alert, Row, Col} from 'react-bootstrap';
+import Moment from 'react-moment';
+import 'moment/locale/ru';
+
 
 
 const Payment = (props) => {
@@ -22,21 +26,32 @@ const Payment = (props) => {
     }
 
     const {pay_day, paid} = props;
-    console.log(paid);
     if (paid){
         return (
             <>
-                <h3>Paid till {pay_day} <button onClick={handleDropPayday}>Drop payday</button></h3>
-                {props.children}
+                <Row>
+                    <Col>
+                        <Alert variant="success">Услуги оплачены на <Moment locale="ru" fromNow ago>{pay_day}</Moment></Alert>
+                        <Button onClick={handleDropPayday}>Сбросить оплату</Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>{props.children}</Col>
+                </Row>
             </>
         );
     };
     return(
-        <>
-            <h4>Please pay the plan</h4>
-            <button onClick={handlePay}>PAY THE PLAN</button>
-        </>
-    );
+        <Row>
+            <Col>
+                <Alert variant="warning">
+                    Услуги не оплачены
+                </Alert>
+                <Button variant="primary" onClick={handlePay}>Оплатить</Button>
+            </Col>
+        </Row>
+            
+       );
 }
 
 export default Payment;

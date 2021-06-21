@@ -7,7 +7,7 @@ const SignOut = ({setToken}) => {
     }
     return (
         <form onSubmit={handleSignOut}>
-            <button class="btn btn-danger" type="submit">Sign out</button>
+            <button className="btn btn-danger" type="submit">Sign out</button>
         </form>
     );
 }
