@@ -3,6 +3,8 @@ import RegisterService from '../../services/registerService';
 import PayService from '../../services/payService';
 import {useHistory} from 'react-router-dom';
 
+import '../../pages/signIn.css';
+
 const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -53,23 +55,27 @@ const Register = () => {
 
     return (
         <div>
-            <h1>Registration</h1>
+            <h1>Регистрация</h1>
             <form onSubmit={handleRegister}>
-                <div class="mb-3">
-                    <input type="text" name="username" value={username} onChange={handleChangeUsername} placeholder="username"/>
+                <div  className="form-floating">
+                    <input className="form-control" type="text" name="username" id="username" value={username} onChange={handleChangeUsername} placeholder="username"/>
+                    <label for="username">Имя пользователя</label>
                 </div>
-                <div class="mb-3">
-                    <input type="password" name="password" value={password} onChange={handleChangePassword} />
+                <div className="form-floating">
+                    <input className="form-control" type="password" name="password" id="password" value={password} onChange={handleChangePassword} />
+                    <label for="password">Пароль</label>
                 </div>
-                <div class="mb-3">
-                    <input type="text" name="name" value={name} onChange={handleChangeName} placeholder="John"/>
+                <div className="form-floating">
+                    <input className="form-control" type="text" name="name" id="name" value={name} onChange={handleChangeName} placeholder="John"/>
+                    <label for="name">Имя</label>
                 </div>
-                <div class="mb-3">
-                    <select name="plan" value={plan} onChange={handleChangePlan} >
+                <div className="form-floating">
+                    <select class="form-select" name="plan" id="plan" value={plan} onChange={handleChangePlan} >
                         {listItems}
                     </select>
+                    <label for="plan">Выберите тариф</label>
                 </div>
-                
+                <br />
                 <button className="btn btn-success" type="submit">Register</button>
             </form>
         </div>
