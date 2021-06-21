@@ -13,7 +13,6 @@ const Register = () => {
     const history = useHistory();
 
     const payService = new PayService();
-
     const now = new Date();
 
     payService.getPlansList()
@@ -24,8 +23,6 @@ const Register = () => {
             }
         });
     let listItems = plans.map((plan) =>  <option value={plan.name}>{plan.name}</option>);
-    console.log(listItems);
-    console.log(pay_day);
     const handleChangeUsername = (event) => {
         setUsername(event.target.value);
     }

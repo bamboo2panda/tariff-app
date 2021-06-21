@@ -14,5 +14,5 @@ RUN npm run build
 FROM nginx:stable-alpine
 COPY --from=build /frontend/build /usr/share/nginx/html
 ENV NODE_ENV=development
-ENV REACT_APP_WEB_PORT=8001
+ENV REACT_APP_WEB_PORT=8000
 CMD ["nginx", "-g", "daemon off;"]

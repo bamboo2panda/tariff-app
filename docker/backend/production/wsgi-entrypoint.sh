@@ -11,6 +11,10 @@ do
     sleep 2
 done
 
-./manage.py collectstatic --noinput
+until ./manage.py collectstatic --noinput
+do
+    echo "Wait for static to be ready..."
+    sleep 2
+done
 
-gunicorn app.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
+gunicorn app.wsgi --bind backend --workers 4 --threads 4

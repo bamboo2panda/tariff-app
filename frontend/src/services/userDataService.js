@@ -1,6 +1,7 @@
 require('dotenv').config()
 const host = process.env.REACT_APP_WEB_HOST;
 const protocol = 'http://';
+const port = process.env.REACT_APP_WEB_PORT;
 
 export default class UserDataService {
     constructor(){

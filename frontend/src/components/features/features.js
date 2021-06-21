@@ -10,7 +10,7 @@ const Features = ({paid, userData, updateScreen}) => {
 
     return(
         <>
-            <h3>{plan}</h3>
+            <h3>Plan: {plan}</h3>
             <Payment pay_day={pay_day} paid={paid} updateScreen={updateScreen}>
                 Some cool features of plan {plan}
             </Payment>
