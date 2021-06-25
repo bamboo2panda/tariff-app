@@ -11,8 +11,16 @@ services:
     volumes: 
       - static_volume:/backend/static
       - ./docker/nginx/development:/etc/nginx/conf.d
-    env_file:
-      - ./backend/.env
+    environment: 
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
+      - WEB_HOST=0.0.0.0
+      - REACT_APP_WEB_PORT=8000
     depends_on:
       - backend
   backend:
@@ -29,14 +37,30 @@ services:
       - 8000:8000
     depends_on: 
       - db
-    env_file:
-      - ./backend/.env
+    environment: 
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
+      - WEB_HOST=0.0.0.0
+      - REACT_APP_WEB_PORT=8000
     networks:
       - djangonetwork
   db:
     image: postgres:13.1-alpine
-    env_file:
-      - ./backend/.env
+    environment: 
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
+      - WEB_HOST=0.0.0.0
+      - REACT_APP_WEB_PORT=8000
     networks:
       - djangonetwork
 
