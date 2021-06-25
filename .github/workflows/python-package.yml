@@ -21,4 +21,5 @@ jobs:
         pip install docker-compose
     - name: Test with Django test
       run: |
+        ls
         docker-compose -f docker-compose-dev.yml run backend sh -c "python manage.py test && flake8"
