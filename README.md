@@ -1,5 +1,7 @@
 # tariff-app
 
+![CI status](https://github.com/bamboo2panda/tariff-app/workflows/CI_main_branch/badge.svg)
+
 ## Установка и первый запуск
 
 - Заполните или измените поля в backend/.env.dist и frontend/.env.dist
