@@ -26,6 +26,8 @@ services:
       - ./backend/.env.dev
     networks:
       - djangonetwork
+    ports:
+      - 5432:5432
 
 volumes:
   static_volume: {}
