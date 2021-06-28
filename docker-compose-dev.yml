@@ -15,12 +15,12 @@ services:
     ports:
       - 8000:8000
     depends_on: 
-      - db
+      - postgres
     env_file:
       - ./backend/.env.dev
     networks:
       - djangonetwork
-  db:
+  postgres:
     image: postgres:13.1-alpine
     env_file:
       - ./backend/.env.dev
